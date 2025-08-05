@@ -1,8 +1,8 @@
 {% extends "global/base.html" %}
 
+<title>{% block title %}me altere{% endblock title %}</title>
 {% block content %}
 <div class="main-content main-content-detail container">
-    {% include "recipes/partials/recipes.html" %}
+    {% include "recipes/partials/recipe.html" %}
 </div>
-
 {% endblock content %}
