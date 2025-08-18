@@ -8,6 +8,7 @@
 <body>
     {% include "recipes/partials/header.html" %}
     {% include "recipes/partials/search.html" %}
+    {% block category %}{% endblock category %}
     <main class="main-content-container">
         {% block home %}{% endblock home %}
     </main>

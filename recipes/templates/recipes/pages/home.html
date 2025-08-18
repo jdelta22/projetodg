@@ -5,6 +5,9 @@
     
     {% for recipe in recipes %}
         {% include "recipes/partials/recipe.html" %}
+
+        {% empty %}
+            <p>No recipes found.</p>
     {% endfor %}
 
 </div>

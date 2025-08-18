@@ -1,0 +1,18 @@
+{% extends "global/base.html" %}
+
+<title>{% block title %}{{ title }} | CATEGORIA{% endblock title %}</title>
+{% block category %}
+<div class="category-title">
+    <div class="container">
+        <h1 class="category-title-show">CATEGORIA : {{ title }}</h1>
+    </div>
+</div>
+{% endblock category %}
+
+{% block home %}
+<div class="main-content main-content-list container">
+    {% for recipe in recipes %}
+        {% include "recipes/partials/recipe.html" %}
+    {% endfor %}
+</div>
+{% endblock home %}
