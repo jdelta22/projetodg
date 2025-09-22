@@ -11,6 +11,7 @@
     {% block category %}{% endblock category %}
     <main class="main-content-container">
         {% block home %}{% endblock home %}
+        {% include "recipes/partials/pagination.html" %}
     </main>
     <footer>
         {% include "recipes/partials/footer.html" %}
