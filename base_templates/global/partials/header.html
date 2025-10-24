@@ -5,6 +5,12 @@
                 <i class="fas fa-whiteboard fa-semibold fa-utensils main_logo_icon"></i>
                 <span class='main-logo-text'>Recipes</span>
             </a>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'authors:login' %}" class="dashboard-access">Login</a>
+                <a href="{% url 'authors:register' %}" class="dashboard-access">Register</a>
+            {% elif user.is_authenticated %}
+                <a href="{% url 'authors:dashboard' %}" class="dashboard-access">Dashboard</a>
+            {% endif %}
         </h1>
     </div>
 </header>

@@ -5,8 +5,11 @@
     <div class="main-content center container">
         <h1>Register</h1>
         {% include 'global/partials/messages.html' %}
+        {% include 'authors/partials/login_messages.html' %}
     </div>
-    <div class="main-content  container">
-        {% include 'global/partials/form.html' %}
-    </div>
+    {% if not user.is_authenticated %}
+        <div class="main-content  container">
+            {% include 'global/partials/form.html' %}
+        </div>
+    {% endif %}
 {% endblock home %}
