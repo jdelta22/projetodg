@@ -7,10 +7,10 @@ from django.conf import settings
 app_name = 'recipes'
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('recipes/search/', views.search, name='search'),
-    path('recipes/category/<int:category_id>/', views.category, name='category'),
-    path('recipes/<slug:slug>/', views.recipes, name='recipe'),
+    path('', views.RecipeListViewHome.as_view(), name='home'),
+    path('recipes/search/', views.RecipeListViewSearch.as_view(), name='search'),
+    path('recipes/category/<int:category_id>/', views.RecipeListViewCategory.as_view(), name='category'),
+    path('recipes/<slug:slug>/', views.RecipeDetailView.as_view(), name='recipe'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
