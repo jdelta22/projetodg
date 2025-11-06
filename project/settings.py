@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS = list[str]= ['*']
+ALLOWED_HOSTS = ['joaocalacacosta.com.br', 'www.joaocalacacosta.com.br', '127.0.0.1', 'localhost']
 
 
 # Application definition
