@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom apps
+    'debug_toolbar',
     'recipes',
     'authors',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -146,3 +148,8 @@ MESSAGE_TAGS = {
     constants.WARNING: 'message-warning',
     constants.ERROR: 'message-error',
 }
+
+# Debug Toolbar settings
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
