@@ -2,6 +2,7 @@ from ..models import Recipe
 from django.views.generic import DetailView
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.shortcuts import render
 
 class RecipeDetail(DetailView):
     model = Recipe
@@ -30,3 +31,7 @@ class RecipeDetailApi(RecipeDetail):
         del recipe_dict['preparation_steps_is_html']
 
         return JsonResponse(recipe_dict,safe=False)
+    
+
+
+    

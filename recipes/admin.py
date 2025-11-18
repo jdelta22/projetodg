@@ -8,6 +8,7 @@ class RecipeAdmin(admin.ModelAdmin):
     ...
 
 
+
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display= ['id' ,'title','created_at', 'author', 'is_published' ]
@@ -18,6 +19,6 @@ class RecipeAdmin(admin.ModelAdmin):
     list_per_page = 15
     list_editable = ('is_published',)
     prepopulated_fields = {'slug': ('title',)}
-
+    autocomplete_fields = ('tags',)
 
 admin.site.register(Category, CategoryAdmin)
