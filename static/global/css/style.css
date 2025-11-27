@@ -507,3 +507,15 @@ img {
 .dashboard-access:hover{
     filter: brightness(0.6);
 }
+
+.hidden-text {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .main-content-list,
+    .form-content-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
+    
+}

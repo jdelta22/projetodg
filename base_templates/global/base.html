@@ -7,6 +7,7 @@
         <title>{% block title %}home{% endblock title %}</title>
 </head>
 <body>
+    {% include "global/partials/menu.html" %}
     {% include "global/partials/header.html" %}
     {% include "global/partials/search.html" %}
     {% block category %}{% endblock category %}
