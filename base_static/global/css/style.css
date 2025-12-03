@@ -565,6 +565,7 @@ img {
 .menu-nav a {
   width: 100%;
   padding: 1rem;
+  
 }
 
 @media (max-width: 768px) {
