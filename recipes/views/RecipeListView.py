@@ -8,19 +8,20 @@ from tag.models import Tag
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 9))
 
+
 class RecipeListView(ListView):
     model = Recipe
     template_name = "recipes/pages/home.html"
     context_object_name = "recipes"
-    ordering= ['-created_at']
+    ordering = ['-created_at']
     paginate_by = None
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         qs = qs.filter(is_published=True)
         qs = qs.select_related('author', 'category')
-        qs = qs.prefetch_related('tags')
-        return qs 
+        qs = qs.prefetch_related('tags', 'author__profile')
+        return qs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -28,16 +29,18 @@ class RecipeListView(ListView):
             self.request,
             context['recipes'],
             PER_PAGE)
-        
+
         context.update({
             'recipes': page_obj,
             'pagination_range': pagination_range,
         })
-        return context 
-    
+        return context
+
+
 class RecipeListViewHome(RecipeListView):
     template_name = "recipes/pages/home.html"
-    
+
+
 class RecipeListViewHomeApi(RecipeListView):
     template_name = "recipes/pages/home.html"
 
@@ -46,16 +49,18 @@ class RecipeListViewHomeApi(RecipeListView):
         recipes_dict = recipes.object_list.values()
 
         return JsonResponse({'recipes': list(recipes_dict)
-        })
+                             }, safe=False, **response_kwargs)
 
 
 class RecipeListViewCategory(RecipeListView):
     template_name = "recipes/pages/category.html"
+
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         category_id = self.kwargs.get('category_id')
         qs = qs.filter(category__id=category_id, is_published=True).order_by('-created_at')
         return qs
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         category_id = self.kwargs.get('category_id')
@@ -65,9 +70,11 @@ class RecipeListViewCategory(RecipeListView):
             'title': f'{category.name}'
         })
         return context
-    
+
+
 class RecipeListViewSearch(RecipeListView):
     template_name = "recipes/pages/search.html"
+
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         search_term = self.request.GET.get('q', '').strip()
@@ -76,6 +83,7 @@ class RecipeListViewSearch(RecipeListView):
             is_published=True
         ).order_by('-created_at')
         return qs
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         search_term = self.request.GET.get('q', '').strip()
@@ -89,12 +97,14 @@ class RecipeListViewSearch(RecipeListView):
 
 class RecipeListViewTag(RecipeListView):
     template_name = "recipes/pages/tag.html"
+
     def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs) 
+        qs = super().get_queryset(*args, **kwargs)
         qs = qs.filter(
             tags__slug=self.kwargs.get('slug', '')
         )
         return qs
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         page_title = Tag.objects.filter(slug=self.kwargs.get('slug', '')).first()

@@ -1,2 +1,3 @@
-from .all import *
-from .dashboard_recipe import *
+from .all import *  # noqa
+from .dashboard_recipe import *  # noqa
+from .profile import ProfileView  # noqa
