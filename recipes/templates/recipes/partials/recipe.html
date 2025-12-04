@@ -1,3 +1,6 @@
+{% load i18n %}
+
+
 <div class="recipe recipe-list-item">
     <div class="recipe-cover">
         <a href="{{ recipe.get_absolute_url }}">
@@ -51,13 +54,13 @@
 
     <div class="recipe-meta-container">
         <div class="recipe-meta recipe-preparation">
-            <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparation time</h3>
+            <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> {% translate 'Preparation' %}</h3>
             <div class="recipe-meta-text">
                 {{ recipe.preparation_time }} {{ recipe.preparation_time_unit }}
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
-            <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i>Servings</h3>
+            <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> {% translate 'Servings' %}</h3>
             <div class="recipe-meta-text">
                 {{ recipe.servings }} {{ recipe.servings_unit }}
             </div>
@@ -68,7 +71,7 @@
         <footer class="recipe-footer">
             <a class="recipe-read-more button button-dark button-full-width" href="{% url 'recipes:recipe' recipe.slug %}">
                 <i class="fas fa-eye"></i>
-                <span>ver mais...</span>
+                <span>{% translate 'Read more ...' %}</span>
             </a>
         </footer>
     {% endif %}
