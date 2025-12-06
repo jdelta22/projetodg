@@ -14,11 +14,12 @@ class RecipeEditForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
-        fields = [ 'title', 'description', 'preparation_time', 'preparation_time_unit', 'servings', 'servings_unit',
+        fields = ['title', 'description', 'preparation_time', 'preparation_time_unit', 'servings', 'servings_unit',
                    'preparation_steps', 'cover',]
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
             'description': forms.TextInput(attrs={'placeholder': 'Description'}),
+            'category': forms.Select(),
             'preparation_time': forms.NumberInput(attrs={'placeholder': 'Preparation Time (minutes)'}),
             'preparation_time_unit':  forms.Select(choices=(("Minutes", "Minutes"), ("Hours", "Hours"))),
             'servings': forms.NumberInput(attrs={'placeholder': 'Servings'}),
@@ -27,6 +28,7 @@ class RecipeEditForm(forms.ModelForm):
             
             'preparation_steps': forms.Textarea(attrs={'placeholder': 'Preparation Steps'}),
             'cover': forms.FileInput(attrs={'class': 'span-2'}),
+            'tags': forms.TextInput(attrs={'placeholder': 'Tags (separated by commas)'}),
         }
 
     def clean(self, *args, **kwargs ):
