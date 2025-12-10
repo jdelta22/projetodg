@@ -10,6 +10,8 @@ from io import BytesIO
 from PIL import Image
 from django.db.models.functions import Concat
 from django.db.models import F, Value
+from random import SystemRandom
+import string
 
 # Create your models here.
 class Category(models.Model):
@@ -49,14 +51,14 @@ class Recipe(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
-    cover = models.ImageField(upload_to='recipes/covers/%Y/%m/%d/')
+    cover = models.ImageField(upload_to='recipes/covers/%Y/%m/%d/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
 
 
     @staticmethod
-    def resize_image_before_save(image_file, new_width=840):
+    def resize_image(image_file, new_width=840):
         image = Image.open(image_file)
         original_width, original_height = image.size
 
@@ -74,11 +76,24 @@ class Recipe(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = f"{slugify(self.title)}"
-        
+            rand_letters = ''.join(
+                SystemRandom().choices(
+                    string.ascii_letters + string.digits,
+                    k=5,
+                )
+            )
+            self.slug = slugify(f'{self.title}-{rand_letters}')
+
+        saved = super().save(*args, **kwargs)
+
         if self.cover:
-            self.cover = self.resize_image_before_save(self.cover, 1254)
-        super().save(*args, **kwargs)
+            try:
+                self.resize_image(self.cover, 840)
+            except FileNotFoundError:
+                ...
+
+        return saved
+
 
     def __str__(self):
         return self.title

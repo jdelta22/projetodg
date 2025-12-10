@@ -16,6 +16,7 @@ urlpatterns = [
     path('recipes/api/v1/<int:pk>/', views.RecipeDetailApi.as_view(), name='recipe_api_v1_detail'),
     path('recipes/api/list', views.api_list_view, name='api_list_view'),
     path('recipes/api/detail/<int:id>/', views.api_detail_view, name='api_detail_view'),
+    path('recipes/api/tag/<int:pk>/', views.api_detail_tag, name='api_detail_tag'),
 ]
 
 

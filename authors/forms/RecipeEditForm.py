@@ -2,6 +2,7 @@ from django import forms
 from recipes.models import Recipe
 from utils.recipes.djangoforms import add_placeholder, add_attr
 from collections import defaultdict
+from authors.validators import AuthorRecipeValidator
 
 
 class RecipeEditForm(forms.ModelForm):
@@ -33,36 +34,7 @@ class RecipeEditForm(forms.ModelForm):
 
     def clean(self, *args, **kwargs ):
         super_clear = super().clean(*args, **kwargs)
-        cleaned_data = self.cleaned_data
-        title = cleaned_data.get('title')
-        description = cleaned_data.get('description')
-        preparation_steps = cleaned_data.get('preparation_steps')
-
-        if len(title) < 6:
-            self._my_errors['title'].append('The title must have at least 6 characters.')
-        if len(description) < 10:
-            self._my_errors['description'].append('The description must have at least 10 characters.')
-        if len(preparation_steps) < 30:
-            self._my_errors['preparation_steps'].append('The preparation steps must have at least 30 characters.')
-
-        if self._my_errors:
-            raise forms.ValidationError(self._my_errors)
-        
-
+        AuthorRecipeValidator(self.cleaned_data, ErrorClass=ValidationError)
         return super_clear
     
-    def clean_preparation_time(self):
-        preparation_time = self.cleaned_data.get('preparation_time')
-
-        if preparation_time <= 0:
-            raise forms.ValidationError('The preparation time must be greater than zero.')
-        
-        return preparation_time
-    
-    def clean_servings(self):
-        servings = self.cleaned_data.get('servings')
-
-        if servings <= 0:
-            raise forms.ValidationError('The servings must be greater than zero.')
-
-        return servings
+   
